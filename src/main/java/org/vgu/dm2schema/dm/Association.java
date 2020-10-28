@@ -54,7 +54,8 @@ public class Association extends Pair<End, End> {
     private String generateName() {
         End targetEnd = this.getLeft();
         return String.format("%1$s_%2$s_%3$s_%4$s", targetEnd.getCurrentClass(),
-            targetEnd.getOpp(), targetEnd.getName(), targetEnd.getTargetClass());
+            targetEnd.getOpp(), targetEnd.getName(),
+            targetEnd.getTargetClass());
     }
 
     public String getName() {
@@ -81,14 +82,21 @@ public class Association extends Pair<End, End> {
         return this.getLeft().getMult() == Multiplicity.MANY
             && this.getRight().getMult() == Multiplicity.MANY;
     }
-    
+
     public Boolean isManyToOne() {
         return this.getLeft().getMult() == Multiplicity.MANY
             ^ this.getRight().getMult() == Multiplicity.MANY;
     }
-    
+
     public End getManyEnd() {
-        if(this.getLeft().getMult() == Multiplicity.MANY)
+        if (this.getLeft().getMult() == Multiplicity.MANY)
+            return this.getLeft();
+        else
+            return this.getRight();
+    }
+    
+    public End getOneEnd() {
+        if (this.getLeft().getMult() == Multiplicity.ONE)
             return this.getLeft();
         else
             return this.getRight();
@@ -101,8 +109,8 @@ public class Association extends Pair<End, End> {
 
     @Override
     public String toString() {
-        return this.leftEntityName + " " + super.getLeft().getMult()
-                + " <--> " + super.getRight().getMult() + " "
-                + this.rightEntityName + "\n";
+        return String.format("%1$s (%2$s) %3$s <--> %4$s (%5$s) %6$s",
+            this.leftEntityName, this.leftEnd, super.getRight().getMult(),
+            super.getLeft().getMult(), this.rightEnd, this.rightEntityName);
     }
 }

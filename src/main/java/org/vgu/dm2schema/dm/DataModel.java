@@ -62,6 +62,19 @@ public class DataModel {
         }
 
         formAssociations(this.entities);
+        /*** 28th Oct, Hoang: Adding generalization ***/
+        formGeneralizatoins(this.entities);
+    }
+
+    /*** 28th Oct, Hoang: Adding generalization ***/
+    private void formGeneralizatoins(Map<String, Entity> _entities) {
+        for(String entityName : _entities.keySet()) {
+            Entity entity = _entities.get(entityName);
+            if(entity.getSuperClass() != null) {
+                String superClassName = entity.getSuperClass().getName();
+                entity.setSuperClass(_entities.get(superClassName));
+            }
+        }
     }
 
     public Map<String, Entity> getEntities() {

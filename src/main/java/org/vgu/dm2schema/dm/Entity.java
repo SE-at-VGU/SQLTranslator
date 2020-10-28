@@ -31,6 +31,8 @@ public class Entity {
     private Set<Attribute> attributes;
     private Set<End> ends;
     private boolean isUserClass;
+    /*** 28th Oct, Hoang: Adding generalization ***/
+    private Entity superClass;
 
     public Entity() {
         attributes = new HashSet<Attribute>();
@@ -62,6 +64,11 @@ public class Entity {
         }
         this.isUserClass = entity.containsKey("isUserClass")
             && ((String) entity.get("isUserClass")).equalsIgnoreCase("true");
+        if(entity.containsKey("super")) {
+            Entity e = new Entity();
+            e.setClazz((String) entity.get("super"));
+            this.superClass = e;
+        }
     }
 
     public String getName() {
@@ -103,5 +110,13 @@ public class Entity {
 
     public void setUserClass(boolean isUserClass) {
         this.isUserClass = isUserClass;
+    }
+
+    public Entity getSuperClass() {
+        return superClass;
+    }
+
+    public void setSuperClass(Entity superClass) {
+        this.superClass = superClass;
     }
 }
